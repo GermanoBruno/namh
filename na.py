@@ -1,58 +1,29 @@
 ''' organizacao do codigo
 	# operacoes possiveis:
+		# display de missoes atuais
+			# diferentes sorts
 	# definir current team
-	# inserir nova missao
-	# 
 
-	#mods
-		# modificacao: ter todas as missoes salvas, marcar as missoes como completas ou não, e ter as limitacoes para cada uma
-		# modificacao: pegar nivel e xp do site
-
-	# Formato missao:
-		#	linha 1: 			personagem a ser desbloquado
-		#	linhas seguintes:	numero wins, n ou r(normal, row), personagem
-		# e.g.: 
-			#	Naruto Uzumaki (S)
-			#	2 r naruto
-			#	8 n naruto
-			#	0
-		# steps como dictionaries
-		#	step.number = 2
-		#	step.win_type = r
-		#	step.char = 'naruto'
-		# missoes como lista de steps
-		#
 
 	# to do:
-		# classe step
-			# criar DONE
-		# classe mission
-			# criar DONE
-		# BD
-			# criar arquivo DONE
-			# atualizar lista de chars DONE
-			# criar missoes para cada char
-			# xp e nível (scraping)
-			# mudar charList pra classe
-		# logicas
-			# inserir missao
-			# result de partida (scraping?)
+		# achar metodo para encontrar missoes do seu time
+			# criar classe char com propriedade "possible names"
+			# passar no db pra achar alguem dessa categoria
+		# gui
+			# pygame ou qt?
 		# current team
-		#
-		#
-		#
-		#
-		#
+			# possivel pegar do js?
+
 '''
 
 '''
 	1. Ver Missoes
 		1. Todas
-			Display todas as missoes atuais
+			Display todas as missoes atuais (sorts variados)
 		2. Time atual
-			Display missoes com os personagens usados
+			Display missoes com os personagens usados (sorts variados)
 	2. Mudar Time Atual
-		Muda o time atual
+		Muda o time atual (possivel por scraping do js?)
 	3. Times Favoritos
 		Display times favoritados pelo user
 	4. META Teams
@@ -85,14 +56,14 @@ def modificarTimeAtual(charList):
 	return timeAtual
 
 def atualizarMissoes(session):
+	# Printa missoes separadas, cada uma com seus steps e o personagem desbloqueado
 	missionListList = acharMissao(session)
-	# Tentar sort pelo nome
 	for missionList in missionListList:
 		for mission in missionList:
 			mission.printMission()
-			#printar "Para habilitar + nome do personagem" depois de todo step set
 
 def missoesPorPersonagem(session):
+	# Printa missoes sort pelo nome do personagem
 	missionListList = acharMissao(session)
 	allSteps = []
 	for missionList in missionListList:
@@ -105,6 +76,7 @@ def missoesPorPersonagem(session):
 		step.printResume()
 
 def missoesMaisConcluidas(session):
+	# Printa missoes sort pelo nivel de conclusao
 	missionListList = acharMissao(session)
 	allSteps = []
 	for missionList in missionListList:
@@ -117,6 +89,7 @@ def missoesMaisConcluidas(session):
 		step.printResume()
 
 def missoesPorTipo(session):
+	# Printa missoes sort pelo tipo de missao ("in a row" ou não)
 	missionListList = acharMissao(session)
 	allSteps = []
 	for missionList in missionListList:
@@ -128,6 +101,8 @@ def missoesPorTipo(session):
 	for step in allSteps:
 		step.printResume()
 
+'''
+# a ser implementado
 def missoesParaTime(session, time):
 	missionListList = acharMissao(session)
 	for missionList in missionListList:
@@ -137,8 +112,7 @@ def missoesParaTime(session, time):
 				for step in mission:
 					if step.charText in bdcharList():
 						a=1
-		
-
+'''
 
 logSuccess = 0
 print("  Bem vindo :)\n\n\n  Realize seu login\n")
@@ -164,11 +138,7 @@ timeAtual = []
 
 while(op != '0'):
 	if op == '1':
-		# atualizar missoes
-		# e.g. 
-		#	q w (quick game, win)
-		# ou
-		#	r w 64 (ladder game, win, 64 xp)
+		# sort padrao
 		atualizarMissoes(sessao)
 	elif op == '2':
 		# Sort por personagem
@@ -178,6 +148,8 @@ while(op != '0'):
 		missoesMaisConcluidas(sessao)
 	elif op == '4':
 		missoesPorTipo(sessao)
+	'''
+	a ser implementado
 	elif op == '5':
 		# Missoes disponiveis com o time atual
 		if timeAtual == []:
@@ -186,6 +158,7 @@ while(op != '0'):
 		missoesParaTime(sessao, timeAtual)
 	elif op == '6':
 		timeAtual = modificarTimeAtual(listaPersonagens())
+	'''
 	else:
 		print("Entrada invalida")
 	print("\n\n\n\n\n\nQual outra operacao deseja realizar?")
@@ -193,7 +166,7 @@ while(op != '0'):
 	print("  2. Organizar missoes por personagem")
 	print("  3. Organizar por proximidade de conclusao")
 	print("  4. Organizar por tipo de missao (in a row/normal)")
-	# implementar
+	# a ser implementado
 	#print("  5. Organizar missoes por time")
 	#print("  6. Mudar Time Atual")
 	op = input("  0. Sair do programa\n")
