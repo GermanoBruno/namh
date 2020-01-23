@@ -36,14 +36,13 @@
 
 '''
 
-
-#from bd import *
 from classes import *
 from webScrape import *
 from bd import *
 
 import operator
 
+from getpass import getpass
 
 def modificarTimeAtual(charList):
 	timeAtual = ['', '', '']
@@ -115,10 +114,10 @@ def missoesParaTime(session, time):
 '''
 
 logSuccess = 0
-print("  Bem vindo :)\n\n\n  Realize seu login\n")
+print("\n\n\n           Bem vindo ao NAMH\n\n")
 while logSuccess == 0:
-	nick = input("Digite o login\n")
-	senha = input("Digite a senha\n")
+	nick = input("Digite o login:\n")
+	senha = getpass(prompt='Digite a senha\n')
 	sessao, logSuccess = login(nick, senha)
 	if logSuccess == 0:
 		print("Credenciais invalidas, tente novamente\n\n")
@@ -148,6 +147,8 @@ while(op != '0'):
 		missoesMaisConcluidas(sessao)
 	elif op == '4':
 		missoesPorTipo(sessao)
+	else:
+		print("Entrada invalida")
 	'''
 	a ser implementado
 	elif op == '5':
@@ -159,8 +160,6 @@ while(op != '0'):
 	elif op == '6':
 		timeAtual = modificarTimeAtual(listaPersonagens())
 	'''
-	else:
-		print("Entrada invalida")
 	print("\n\n\n\n\n\nQual outra operacao deseja realizar?")
 	print("  1. Atualizar missoes")
 	print("  2. Organizar missoes por personagem")

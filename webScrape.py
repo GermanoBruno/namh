@@ -40,7 +40,6 @@ def listaPersonagens():
 	req = requests.get('https://naruto-arena.net/characters-and-skills')
 
 	if req.status_code == 200:
-		print('Foi\n')
 		content = req.content
 
 		soup = BeautifulSoup(content, 'html.parser')
@@ -49,11 +48,10 @@ def listaPersonagens():
 		stringList = []
 		for i in tag:
 			string = i.find(name='h2')
-			#print(string.contents[0])
 			stringList.append(string.contents[0].lower())
 		return stringList
 	else:
-		print('Request Failed, personagens nao baixados')
+		print('Falha no download da lista de personagens. Codigo: ' + req.status_code)
 
 def lerMissoes(url, session):
 	req = session.get(url, allow_redirects=False)
@@ -62,7 +60,6 @@ def lerMissoes(url, session):
 		soup = BeautifulSoup(content, 'html.parser')
 		# Procura a imagem de lista (indicando step da missao)
 		tag = soup.find_all(name = 'div', attrs={'class':'floatleft'})
-		#sprint(tag)
 		linkList = []
 		missionList = []
 		for box in tag:
@@ -71,6 +68,10 @@ def lerMissoes(url, session):
 			preReq = []
 			stepList = []
 			charUnlock = ''
+
+			# texto de missão bloqueada
+			lockedText = 'You do not meet the requirements to do this mission.'
+			
 			# Procura o titulo da missao
 			title = box.find_next(name = 'h5').contents[0]
 			# Seleciona a div(box) que contem a missao
@@ -89,7 +90,7 @@ def lerMissoes(url, session):
 				for text in texts:
 					missionSearch = text.contents
 					for mission in missionSearch:
-						if (mission not in rankList) and (mission != 'You do not meet the requirements to do this mission.'):
+						if (mission not in rankList) and (mission != lockedText):
 							preReq.append(mission)
 			else:
 				texts = box.find_all(name='font')
@@ -99,7 +100,7 @@ def lerMissoes(url, session):
 				for text in texts:
 					missionSearch = text.contents
 					for mission in missionSearch:
-						if (mission not in rankList) and (mission != 'You do not meet the requirements to do this mission.'):
+						if (mission not in rankList) and (mission != lockedText):
 							preReq.append(mission)
 						if text['class'][0] == 'nothing':
 							# Inicialmente parecendo estar completa, chegamos no "you do not...", portanto: missao locked
@@ -138,7 +139,7 @@ def lerMissoes(url, session):
 				missionList.append(Mission(title, rank, status, missionUrl, preReq, stepList, charUnlock))
 		return(missionList)
 	else:
-		print('Request failed')
+		print('Falha na leitura de missoes. Codigo: ' + req.status_code)
 
 def acharMissao(session):
 	# a partir da tela de missões, entrar em cada sub secao e verificar as missoes por fazer
@@ -155,4 +156,6 @@ def acharMissao(session):
 			linkList.append(link)
 		for link in linkList:
 			missionListList.append(lerMissoes(link, session))
+	else:
+		print('Falha em achar as missoes. Codigo: ' + req.status_code)
 	return missionListList
