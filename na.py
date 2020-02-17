@@ -27,7 +27,7 @@
 	3. Times Favoritos
 		Display times favoritados pelo user
 	4. META Teams
-		Display meta teams de acordo com os bonecos habilitados (criar tabela de acordo com a sessão)
+		Display meta teams de acordo com os bonecos habilitados (criar tabela de acordo com a sessao)
 	5. Inspecionar Time
 		Mostra o time inimigo, com os textos das habilidades
 		Pode ser aprimorado pra mostrar jogabilidade basica dos bonecos (playing with/playing against)
@@ -88,7 +88,7 @@ def missoesMaisConcluidas(session):
 		step.printResume()
 
 def missoesPorTipo(session):
-	# Printa missoes sort pelo tipo de missao ("in a row" ou não)
+	# Printa missoes sort pelo tipo de missao ("in a row" ou nao)
 	missionListList = acharMissao(session)
 	allSteps = []
 	for missionList in missionListList:
@@ -115,6 +115,7 @@ def missoesParaTime(session, time):
 
 logSuccess = 0
 print("\n\n\n           Bem vindo ao NAMH\n\n")
+sessao, logSuccess = login("impotente", "Nas020798020798.")
 while logSuccess == 0:
 	nick = input("Digite o login:\n")
 	senha = getpass(prompt='Digite a senha\n')
@@ -154,7 +155,7 @@ while(op != '0'):
 	elif op == '5':
 		# Missoes disponiveis com o time atual
 		if timeAtual == []:
-			print("Time não especificado\n")
+			print("Time nao especificado\n")
 			timeAtual = modificarTimeAtual(listaPersonagens())
 		missoesParaTime(sessao, timeAtual)
 	elif op == '6':
@@ -170,4 +171,4 @@ while(op != '0'):
 	#print("  6. Mudar Time Atual")
 	op = input("  0. Sair do programa\n")
 
-print("Até breve :)\n")
+print("Ate breve :)\n")

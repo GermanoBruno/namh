@@ -23,7 +23,7 @@ def login(nick, password):
 		# posta o request
 		post = s.post('https://naruto-arena.net/login', payload)
 
-		# atualiza o conteudo do site pós tentativa de login e busca o formulario de logout (so disponivel quando login sucesso)
+		# atualiza o conteudo do site pos tentativa de login e busca o formulario de logout (so disponivel quando login sucesso)
 		content = post.content
 		soup = BeautifulSoup(content, 'html.parser')
 		tag = soup.find(name='form', attrs={'action':'https://naruto-arena.net/logout'})
@@ -69,7 +69,7 @@ def lerMissoes(url, session):
 			stepList = []
 			charUnlock = ''
 
-			# texto de missão bloqueada
+			# texto de missao bloqueada
 			lockedText = 'You do not meet the requirements to do this mission.'
 			
 			# Procura o titulo da missao
@@ -94,7 +94,7 @@ def lerMissoes(url, session):
 							preReq.append(mission)
 			else:
 				texts = box.find_all(name='font')
-				# Setta status como 1, se não for missao unlocked, vai mudar
+				# Setta status como 1, se nao for missao unlocked, vai mudar
 				status = 1
 				# Pega a lista de missoes necessarias para realizar a missao (preReq)
 				for text in texts:
@@ -107,7 +107,7 @@ def lerMissoes(url, session):
 							status = 0
 				if status == 1:
 					missionUrl = box.find_next(name='a')['href']
-					# Pega a missionUrl entra na missão e coleta Steps e charUnlock
+					# Pega a missionUrl entra na missao e coleta Steps e charUnlock
 					req = session.get(missionUrl)
 					content = req.content
 					soup = BeautifulSoup(content, 'html.parser')
@@ -115,11 +115,11 @@ def lerMissoes(url, session):
 					# Procura a imagem de lista (indicando step da missao)
 					missionSteps = soup.find_all(name = 'img', attrs={'src':'../images/pres/preli.gif'})
 					for step in missionSteps:
-						# coloca em uma lista o texto de missões
+						# coloca em uma lista o texto de missoes
 						strText = str(step.find_next(string=True))
 						# Retira tab e newline do nome
 						strText = strText.strip('\n\t')
-						# Retira o Win no começo do step
+						# Retira o Win no comeco do step
 						if(strText != ''):
 							stepWords = strText.strip('Win ').split(' ')
 							stepWords[-2] = stepWords[-2][:-1]
@@ -134,15 +134,17 @@ def lerMissoes(url, session):
 							stepList.append(newStep)
 					# Busca do char a ser desbloqueado
 					charUnlock = soup.find(name='div', attrs={'class': 'floatleft'})
-					charUnlock = charUnlock.find_all(name='br')
-					charUnlock = charUnlock[-3].contents[0].strip('\n\t')
+					#print(charUnlock)
+					charUnlock = charUnlock.find(name='a')
+					charUnlock = charUnlock['href'][30:]
+
 				missionList.append(Mission(title, rank, status, missionUrl, preReq, stepList, charUnlock))
 		return(missionList)
 	else:
 		print('Falha na leitura de missoes. Codigo: ' + req.status_code)
 
 def acharMissao(session):
-	# a partir da tela de missões, entrar em cada sub secao e verificar as missoes por fazer
+	# a partir da tela de missoes, entrar em cada sub secao e verificar as missoes por fazer
 	req = session.get('https://naruto-arena.net/ninja-missions', allow_redirects=False)
 	if req.status_code == 200:
 		content = req.content

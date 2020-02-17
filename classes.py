@@ -59,7 +59,7 @@ class Mission():
 		self.charUnlock = charUnlock
 
 	def readMission(self, steps, charUnlock):
-		# acho que tá inutil, a checar
+		# acho que ta inutil, a checar
 		self.steps = steps
 		self.charUnlock = charUnlock
 
@@ -68,4 +68,8 @@ class Mission():
 		if self.charUnlock != '':
 			for step in self.steps:
 				step.printStep()
-			print("\tTo unlock " + self.charUnlock + '\n\n')
+			charName = self.charUnlock.split('-')
+			text = ''
+			for name in charName:
+				text = text + ' ' + name
+			print("\tTo unlock" + text + '\n\n')
