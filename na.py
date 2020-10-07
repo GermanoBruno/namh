@@ -115,7 +115,6 @@ def missoesParaTime(session, time):
 
 logSuccess = 0
 print("\n\n\n           Bem vindo ao NAMH\n\n")
-sessao, logSuccess = login("impotente", "Nas020798020798.")
 while logSuccess == 0:
 	nick = input("Digite o login:\n")
 	senha = getpass(prompt='Digite a senha\n')
