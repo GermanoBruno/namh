@@ -1,5 +1,5 @@
 '''
-	Comeco/esboco de implementacao de um banco de dados dinamico em python, para manter algumas listas importantes para o funcionamento do programa
+	Esboco de implementacao de um dump de dados dinamico em python, para manter algumas listas importantes para o funcionamento do programa
 '''
 
 #from classes import  *
